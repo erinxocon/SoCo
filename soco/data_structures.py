@@ -201,7 +201,7 @@ class DidlResource(object):
 
         # Required
         root.attrib['protocolInfo'] = self.protocol_info
-        # Optional
+        Optional
         if self.import_uri is not None:
             root.attrib['importUri'] = self.import_uri
         if self.size is not None:
@@ -462,7 +462,7 @@ class DidlObject(with_metaclass(DidlMetaClass, object)):
         parent_id = really_unicode(element.get('parentID', None))
         if parent_id is None:
             raise DIDLMetadataError("Missing parentID attribute")
-        restricted = element.get('restricted', None)
+        restricted = element.get('restricted', False)
         if restricted is None:
             raise DIDLMetadataError("Missing restricted attribute")
         restricted = True if restricted in [1, 'true', 'True'] else False
@@ -470,10 +470,10 @@ class DidlObject(with_metaclass(DidlMetaClass, object)):
         # There must be a title. According to spec, it should be the first
         # child, but Sonos does not abide by this
         title_elt = element.find(ns_tag('dc', 'title'))
-        if title_elt is None:
-            raise DIDLMetadataError(
-                "Missing title element")
-        if title_elt.text:
+        # if title_elt is None:
+        #     raise DIDLMetadataError(
+        #         "Missing title element")
+        if title_elt is not None:
             title = really_unicode(title_elt.text)
         else:
             title = ""
